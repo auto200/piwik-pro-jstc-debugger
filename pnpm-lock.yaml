@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  webext-bridge:
+    hash: iabrmmoep4vc2klod3crpscc2q
+    path: patches/webext-bridge.patch
+
 importers:
 
   .:
@@ -55,7 +60,7 @@ importers:
         version: 1.0.7(tailwindcss@3.4.17)
       webext-bridge:
         specifier: ^6.0.1
-        version: 6.0.1
+        version: 6.0.1(patch_hash=iabrmmoep4vc2klod3crpscc2q)
     devDependencies:
       '@types/chrome':
         specifier: ^0.0.309
@@ -7617,7 +7622,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  webext-bridge@6.0.1:
+  webext-bridge@6.0.1(patch_hash=iabrmmoep4vc2klod3crpscc2q):
     dependencies:
       '@types/webextension-polyfill': 0.8.3
       nanoevents: 6.0.2

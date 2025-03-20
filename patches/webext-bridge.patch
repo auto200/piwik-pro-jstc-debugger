@@ -1,0 +1,25 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+deleted file mode 100644
+index 6e87c8895a7af535c8fc7f6b9f5ac3c06c30e0b7..0000000000000000000000000000000000000000
+diff --git a/dist/chunk-E2HJRHOS.js b/dist/chunk-E2HJRHOS.js
+index 64e4fcda25d0664c036ec2176403f231d5047ff7..2b1600046b408d6f4f46fcddaafa039c1c360870 100644
+--- a/dist/chunk-E2HJRHOS.js
++++ b/dist/chunk-E2HJRHOS.js
+@@ -17,7 +17,7 @@ var createPersistentPort = (name = "") => {
+   const handleMessage = (msg, port2) => {
+     switch (msg.status) {
+       case "undeliverable":
+-        if (!undeliveredQueue.some((m) => m.message.messageID === msg.message.messageID)) {
++        // if (!undeliveredQueue.some((m) => m.message.messageID === msg.message.messageID)) {
+           undeliveredQueue = [
+             ...undeliveredQueue,
+             {
+@@ -25,7 +25,7 @@ var createPersistentPort = (name = "") => {
+               resolvedDestination: msg.resolvedDestination
+             }
+           ];
+-        }
++        // }
+         return;
+       case "deliverable":
+         undeliveredQueue = undeliveredQueue.reduce((acc, queuedMsg) => {
