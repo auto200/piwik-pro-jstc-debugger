@@ -1,5 +1,5 @@
 import { defineContentScript } from 'wxt/sandbox';
-import { Message } from '@/lib/messaging';
+import { InternalMessage, Message } from '@/lib/messaging';
 
 // proxy object created when JSTC is loaded
 type _QueueProxy = { push: (args: unknown[]) => void };
@@ -8,7 +8,7 @@ function is_queueProxy(value: unknown): value is _QueueProxy {
   return typeof value === 'object' && value !== null && 'push' in value;
 }
 
-const sendMessage = (msg: Message) => {
+const sendMessage = (msg: Message | InternalMessage) => {
   window.postMessage(msg, '*');
 };
 

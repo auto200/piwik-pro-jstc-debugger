@@ -15,7 +15,7 @@ export function EventsSummary({ msgs }: EventsSummaryProps) {
   );
 
   return (
-    <div className="flex cursor-default items-center gap-2 overflow-hidden border-t-2 px-2 py-1">
+    <div className="flex cursor-default items-center gap-2 overflow-hidden border-t-2 px-2 py-[5px]">
       <div className="whitespace-nowrap" title="Total number of events">
         {relevantMsgs.length} events
       </div>

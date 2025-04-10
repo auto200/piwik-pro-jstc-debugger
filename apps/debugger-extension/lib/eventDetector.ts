@@ -35,7 +35,7 @@ export function getEventType(eventParams: QueryParam[]): EventType {
 
   if (isGoalConversion(eventParams)) return 'Goal Conversion';
 
-  if (isPing(eventParams)) return getPingType(eventParams);
+  if (isPing(eventParams)) return 'Ping';
 
   if (isDownload(eventParams)) return 'Download';
 
@@ -70,6 +70,25 @@ export function getEventType(eventParams: QueryParam[]): EventType {
   return 'Page view';
 }
 
+export function getPingType(eventParams: QueryParam[]) {
+  const param = eventParams.find((p) => p.name === 'ping');
+  if (!param) return 'Broken Event';
+
+  const pingLevel = Number.parseInt(param.value);
+
+  if (pingLevel === 1) return 'Periodic heartbeat';
+  if (pingLevel === 2) return 'Last heartbeat';
+  if (pingLevel === 3) return 'Blur heartbeat ';
+
+  if (pingLevel === 4) return 'Deanonymization';
+
+  if (pingLevel === 5) return 'Page performance metric';
+
+  if (pingLevel === 6) return 'Custom';
+
+  return 'Broken Event';
+}
+
 function isBrokenEvent(eventParams: QueryParam[]) {
   // TODO: validate if idsite and idgoal are in the proper format
   return !eventParams.some((p) => p.name === 'idsite');
@@ -82,22 +101,6 @@ function isGoalConversion(eventParams: QueryParam[]) {
 
 function isPing(eventParams: QueryParam[]) {
   return eventParams.some((p) => p.name === 'ping');
-}
-function getPingType(eventParams: QueryParam[]) {
-  const param = eventParams.find((p) => p.name === 'ping');
-  if (!param) return 'Broken Event';
-
-  const pingLevel = Number.parseInt(param.value);
-
-  if (pingLevel === 1 || pingLevel === 2 || pingLevel === 3) return 'HeartBeat';
-
-  if (pingLevel === 4) return 'Deanonymization';
-
-  if (pingLevel === 5) return 'Page performance metric';
-
-  if (pingLevel === 6) return 'Custom';
-
-  return 'Broken Event';
 }
 
 function isDownload(eventParams: QueryParam[]) {

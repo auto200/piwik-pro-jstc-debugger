@@ -129,8 +129,8 @@ export const eventStore = {
     pageOrigin = '';
     allRequests.length = 0;
     emitChange();
-    browser.devtools.network.onRequestFinished.removeListener(paqNetworkHandler);
-    browser.devtools.network.onRequestFinished.removeListener(ppasNetworkHandler);
+    // browser.devtools.network.onRequestFinished.removeListener(paqNetworkHandler);
+    // browser.devtools.network.onRequestFinished.removeListener(ppasNetworkHandler);
   },
 };
 

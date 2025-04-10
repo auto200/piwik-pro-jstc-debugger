@@ -35,7 +35,6 @@ Go to [releases](https://github.com/auto200/piwik-pro-tracking-helper/releases) 
 ### TODO
 
 - detection if JSTC is on the page - currently we display nothing
-- remove extension outdated notice
 - publish extension to stores
 - payload validation for events and network events
 - grouping parameters in network event details

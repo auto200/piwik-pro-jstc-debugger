@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { getEventType } from '@/lib/eventDetector';
+import { getEventType, getPingType } from '@/lib/eventDetector';
 import { cn } from '@/lib/utils';
 import { ArrowRight, ArrowUpDown } from 'lucide-react';
 import { Entry } from '../eventStore';
@@ -95,7 +95,7 @@ function EventEntryRow({ msg, selectedMessage, setSelectedMessage }: EventEntryR
                     key={i}
                     className={cn(eventType === 'Broken Event' && 'font-bold text-red-600')}
                   >
-                    {eventType}
+                    {eventType === 'Ping' ? `Ping -> ${getPingType(params)}` : eventType}
                   </span>
                 );
               })
@@ -105,7 +105,9 @@ function EventEntryRow({ msg, selectedMessage, setSelectedMessage }: EventEntryR
                   getEventType(msg.payload.params) === 'Broken Event' && 'font-bold text-red-600'
                 )}
               >
-                {getEventType(msg.payload.params)}
+                {getEventType(msg.payload.params) === 'Ping'
+                  ? `Ping -> ${getPingType(msg.payload.params)}`
+                  : getEventType(msg.payload.params)}
               </span>
             )}
           </TableCell>
@@ -144,9 +146,6 @@ function EventEntryRow({ msg, selectedMessage, setSelectedMessage }: EventEntryR
           <TableCell>{params.length === 0 ? '-' : JSON.stringify(params)}</TableCell>
         </TableRow>
       );
-    }
-    case 'PAGE_METADATA': {
-      return;
     }
     default: {
       // @ts-expect-error dummy check for now

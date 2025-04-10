@@ -13,6 +13,9 @@ import { EventsList } from './components/EventsList';
 import { EventDetails } from './components/EventDetails';
 import { EventsSummary } from './components/EventsSummary';
 import { useEventsListAutoscroll } from './hooks/useEventsListAutoscroll';
+import { Button } from '@/components/ui/button';
+import { RefreshCcw } from 'lucide-react';
+import { sendMessage } from 'webext-bridge/devtools';
 
 export type Filters = Array<
   'PAQ_ENTRY' | 'PPAS_ENTRY' | 'PAQ_NETWORK_EVENT' | 'PPAS_NETWORK_EVENT'
@@ -64,6 +67,13 @@ export function App() {
     };
   }, []);
 
+  const handleHardReload = async () => {
+    setSelectedMessage(undefined);
+    setFilters([]);
+    eventStore.clear();
+    sendMessage('RELOAD', undefined, 'background');
+  };
+
   return (
     <div ref={containerRef}>
       <Header
@@ -77,17 +87,33 @@ export function App() {
           eventStore.clear();
           setSelectedMessage(undefined);
         }}
+        onHardReload={handleHardReload}
       />
 
       <PanelGroup direction="horizontal" autoSaveId="JSTC_DBG_PANELS">
         <Panel order={1} id="event-list" minSize={25} className="flex flex-col">
-          <EventsList
-            ref={eventListContainerRef}
-            msgs={msgs}
-            selectedMessage={selectedMessage}
-            setSelectedMessage={setSelectedMessage}
-          />
-          <EventsSummary msgs={msgs} />
+          {_msgs.length ? (
+            <>
+              <EventsList
+                ref={eventListContainerRef}
+                msgs={msgs}
+                selectedMessage={selectedMessage}
+                setSelectedMessage={setSelectedMessage}
+              />
+              <EventsSummary msgs={msgs} />
+            </>
+          ) : (
+            <div className="flex flex-col items-center p-3">
+              <div className="text-xl font-bold">Waiting for messages</div>
+              <div className="text-center text-sm">
+                If this message does not disappear, check if Piwik PRO is set up, or try reloading
+                the page
+              </div>
+              <Button className="mt-3" variant="secondary" onClick={handleHardReload}>
+                <RefreshCcw /> Reload page
+              </Button>
+            </div>
+          )}
         </Panel>
 
         {selectedMessage && (

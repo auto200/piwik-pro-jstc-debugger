@@ -1,10 +1,8 @@
 import type { Ref } from 'react';
-import { ArrowRight, ArrowUpDown, CircleX, Info } from 'lucide-react';
+import { ArrowRight, ArrowUpDown, CircleX, RefreshCcw } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { useExtensionVersionMaybeNotLatest } from '../hooks/useExtensionVersionMaybeNotLatest';
 import type { Filters } from '../App';
 
 type HeaderProps = {
@@ -12,11 +10,10 @@ type HeaderProps = {
   filters: Filters;
   onFiltersChange: (filters: Filters) => void;
   reset: () => void;
+  onHardReload: () => void;
 };
 
-export function Header({ ref, filters, onFiltersChange, reset }: HeaderProps) {
-  const extensionMaybeNotLatest = useExtensionVersionMaybeNotLatest();
-
+export function Header({ ref, filters, onFiltersChange, reset, onHardReload }: HeaderProps) {
   const handleFilterChange = (filter: Filters[number] | undefined) => {
     if (!filter) {
       onFiltersChange([]);
@@ -32,10 +29,13 @@ export function Header({ ref, filters, onFiltersChange, reset }: HeaderProps) {
   };
 
   return (
-    <div ref={ref} className="flex items-center overflow-hidden">
-      <Button variant="outline" size="sm" onClick={reset}>
-        <CircleX />
-        <span>reset</span>
+    <div ref={ref} className="flex items-center overflow-hidden p-[2px]">
+      <Button variant="outline" size="sm" onClick={reset} className="mr-1 h-7">
+        <CircleX /> clear
+      </Button>
+
+      <Button variant="outline" size="sm" onClick={onHardReload} className="h-7">
+        <RefreshCcw /> reload
       </Button>
 
       {/* filters */}
@@ -106,33 +106,6 @@ export function Header({ ref, filters, onFiltersChange, reset }: HeaderProps) {
         >
           <ArrowUpDown size={12} className="text-purple-500" /> _ppas
         </Badge>
-      </div>
-
-      <div className="ml-auto mr-1 flex gap-2">
-        {extensionMaybeNotLatest && (
-          <Tooltip delayDuration={0}>
-            <TooltipTrigger>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="bg-yellow-300 hover:bg-yellow-200"
-                asChild
-              >
-                <a
-                  href="https://github.com/auto200/piwik-pro-tracking-helper/releases"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Info />
-                </a>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              Your extension: <b>{extensionMaybeNotLatest.current}</b> may be outdated. Latest
-              version: <b>{extensionMaybeNotLatest.latest}</b>
-            </TooltipContent>
-          </Tooltip>
-        )}
       </div>
     </div>
   );
